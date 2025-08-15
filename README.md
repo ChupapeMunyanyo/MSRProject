@@ -34,7 +34,7 @@ npm install
 
 bash
 npm start
-Приложение будет доступно по адресу: http://localhost:3000
+Приложение будет доступно по адресу: http://localhost:5173 или http://localhost:5174
 
 Структура проекта
 text
