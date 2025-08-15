@@ -1,69 +1,71 @@
-# React + TypeScript + Vite
+Timezone Multiselect Component
+Описание проекта
+Это React-приложение с компонентом для множественного выбора временных зон. Основные возможности:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Загрузка списка временных зон с публичного API
 
-Currently, two official plugins are available:
+Множественный выбор временных зон
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Поиск и фильтрация временных зон
 
-## Expanding the ESLint configuration
+Удаление отдельных выбранных зон
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Очистка всех выбранных зон
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Удобный интерфейс с клавиатурной навигацией
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Установка зависимостей
+Перед запуском проекта необходимо установить следующие зависимости:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+bash
+npm install react react-dom typescript @types/react @types/react-dom
+Или с использованием yarn:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+bash
+yarn add react react-dom typescript @types/react @types/react-dom
+Запуск проекта
+Клонируйте репозиторий
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Установите зависимости:
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+bash
+npm install
+Запустите приложение:
+
+bash
+npm start
+Приложение будет доступно по адресу: http://localhost:3000
+
+Структура проекта
+text
+timezone-multiselect/
+├── src/
+│   ├── components/
+│   │   ├── Multiselect.tsx    # Основной компонент выбора
+│   │   └── types.ts           # Типы TypeScript
+│   ├── App.tsx                # Главный компонент приложения
+│   ├── index.tsx              # Точка входа
+│   └── Multiselect.css        # Стили компонента
+├── package.json
+└── README.md
+Используемые технологии
+React - библиотека для построения пользовательского интерфейса
+
+TypeScript - типизированное надмножество JavaScript
+
+CSS - стилизация компонента (без дополнительных библиотек)
+
+Особенности реализации
+Полная типизация - весь код написан на TypeScript с продуманной системой типов
+
+Доступность - реализована клавиатурная навигация (стрелки, Enter, Escape)
+
+Оптимизация - эффективный рендеринг списка с фильтрацией
+
+Обработка ошибок - корректная обработка ошибок загрузки данных
+
+Адаптивный дизайн - компонент работает на разных устройствах
+
+API
+Приложение использует публичное API для получения списка временных зон:
+https://timeapi.io/api/timezone/availabletimezones
