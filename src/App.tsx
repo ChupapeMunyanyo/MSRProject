@@ -8,6 +8,25 @@ interface Timezone {
   value: string; // Значение временной зоны
 }
 
+// Мок-данные временных зон
+const mockTimezones: Timezone[] = [
+  { label: "Europe/Moscow", value: "Europe/Moscow" },
+  { label: "America/New_York", value: "America/New_York" },
+  { label: "America/Los_Angeles", value: "America/Los_Angeles" },
+  { label: "Europe/London", value: "Europe/London" },
+  { label: "Asia/Tokyo", value: "Asia/Tokyo" },
+  { label: "Australia/Sydney", value: "Australia/Sydney" },
+  { label: "Africa/Cairo", value: "Africa/Cairo" },
+  { label: "Asia/Dubai", value: "Asia/Dubai" },
+  { label: "Asia/Shanghai", value: "Asia/Shanghai" },
+  { label: "Europe/Berlin", value: "Europe/Berlin" },
+  { label: "Europe/Paris", value: "Europe/Paris" },
+  { label: "Pacific/Honolulu", value: "Pacific/Honolulu" },
+  { label: "Asia/Kolkata", value: "Asia/Kolkata" },
+  { label: "America/Chicago", value: "America/Chicago" },
+  { label: "America/Toronto", value: "America/Toronto" },
+];
+
 const App: React.FC = () => {
   // Состояния компонента
   const [timezones, setTimezones] = useState<Timezone[]>([]); // Список доступных временных зон
@@ -19,17 +38,15 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchTimezones = async () => {
       try {
-        // Запрос к API для получения временных зон
+        // Сначала пробуем получить данные с API
         const response = await fetch(
           'https://timeapi.io/api/timezone/availabletimezones'
         );
         
-        // Проверка успешности запроса
         if (!response.ok) {
           throw new Error('Failed to fetch timezones');
         }
         
-        // Парсинг ответа и преобразование в нужный формат
         const data = await response.json();
         setTimezones(
           data.map((tz: string) => ({
@@ -38,16 +55,21 @@ const App: React.FC = () => {
           }))
         );
       } catch (err) {
-        // Обработка ошибок
-        setError(err instanceof Error ? err.message : 'Unknown error occurred');
+        // Если API не работает, используем мок-данные
+        console.warn('API request failed, using mock data instead');
+        setTimezones(mockTimezones);
+        setError(null); // Сбрасываем ошибку, так как у нас есть fallback
       } finally {
-        // Снятие флага загрузки
         setIsLoading(false);
       }
     };
 
+    // Для демонстрации можно сразу использовать мок-данные без запроса:
+    // setTimezones(mockTimezones);
+    // setIsLoading(false);
+    
     fetchTimezones();
-  }, []); // Пустой массив зависимостей - выполняется один раз при монтировании
+  }, []);
 
   // Удаление конкретной временной зоны
   const handleRemoveTimezone = (timezoneToRemove: string) => {
@@ -66,8 +88,8 @@ const App: React.FC = () => {
     return <div className="status-message">Loading timezones...</div>;
   }
 
-  // Отображение ошибки
-  if (error) {
+  // Отображение ошибки (если нет мок-данных)
+  if (error && timezones.length === 0) {
     return <div className="status-message status-message--error">Error: {error}</div>;
   }
 
@@ -78,17 +100,16 @@ const App: React.FC = () => {
       
       {/* Компонент Multiselect */}
       <MultiSelect
-        options={timezones} // Доступные опции
-        selectedOptions={selectedTimezones} // Выбранные опции
-        onSelectionChange={setSelectedTimezones} // Обработчик изменения выбора
-        placeholder="Select timezones..." // Плейсхолдер
+        options={timezones}
+        selectedOptions={selectedTimezones}
+        onSelectionChange={setSelectedTimezones}
+        placeholder="Select timezones..."
       />
       
       {/* Блок выбранных временных зон */}
       <div style={{ marginTop: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h3>Selected Timezones:</h3>
-          {/* Кнопка очистки (отображается только если есть выбранные зоны) */}
           {selectedTimezones.length > 0 && (
             <button 
               onClick={handleClearAll}
